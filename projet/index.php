@@ -2,10 +2,12 @@
 session_start(); // étant donné formulaire + authentification => prépare le terrain
 
 // le nom de domaine de ton projet 
-define("WWW","http://localhost/php-initiation/projet/index.php");
+//on n'a deja creer une variable  const dans le fichier const.php
+// define("WWW","http://localhost/php-initiation/projet/index.php");
 
 // appeler la base de données 
 require "lib/base-de-donne.php";
+require "lib/const.php";
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -48,6 +50,9 @@ require "lib/base-de-donne.php";
     <!-- http://localhost/php-initiation/projet/index.php  -->
 <!-- on va gerer tous ce qui est front-office -->
     <div class="container">
+
+        <!-- routing => url => page -->
+
         <!-- -------------- la partie public---------------- -->
         <?php if (empty($_GET)) :?>
             <?php require "vue/public/accueil.php" ?>
@@ -139,7 +144,26 @@ require "lib/base-de-donne.php";
 
             <?php elseif(!empty($_GET["action"]) && $_GET["action"] == "delete" ) : ?>
                 <!-- suppression -->
+    <!-- suppresion du profil d'utilisateur dans la page -->
+                <?php 
+                    $sth = $connexion->prepare("
+                        DELETE FROM pages WHERE id = :id
+                    ");
+                    $sth->execute(["id" => $_GET["id"]]);
+                    header("Location: ". WWW . "?page=page&partie=privee");
+                    exit ; 
+                ?>
+<!------------------ mise a jour des utilisateurs ------------------->
             <?php elseif(!empty($_GET["action"]) && $_GET["action"] == "update" ) : ?>
+
+                <?php 
+                    $sth = $connexion->prepare("
+                        SELECT * FROM pages WHERE id = :id
+                    ");
+                    $sth->execute(["id" => $_GET["id"]]);
+                    $page = $sth->fetch();
+                ?>
+                <?php require "vue/privee/gestion-page-form.php" ?>
 
             <?php else : ?>
                 <?php require "vue/privee/gestion-page.php" ?>
@@ -151,9 +175,9 @@ require "lib/base-de-donne.php";
         <?php else : ?>
                 <?php require "vue/public/404.php" ?>
         <?php endif ?>    
-
-
     </div>
-
+    <footer class="my-3 text-center">
+        <a href="<?php echo WWW ?>?page=mention" class="text-decoration-none">mentions légales</a>
+    </footer>
 </body>
 </html>

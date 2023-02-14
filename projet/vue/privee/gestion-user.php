@@ -1,4 +1,6 @@
 <?php
+require "lib/fonctions.php";
+isLogged();
 $sth = $connexion->prepare("
     SELECT id, nom, email, DATE_FORMAT(dt_creation , '%d/%m/%Y') AS `dt_creation` , 
     (CASE status WHEN  1  THEN 'actif' ELSE 'inactif' END) AS `status`

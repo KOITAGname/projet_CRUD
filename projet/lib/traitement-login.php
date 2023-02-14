@@ -2,6 +2,8 @@
 session_start();
 $erreurs = [] ;
 require "base-de-donne.php";
+//appel de la constante creer dans le fichier const.php
+require "const.php";
 
 
 if(empty($_POST["login"]) || empty($_POST["password"])){
@@ -27,13 +29,16 @@ if(count($erreurs) === 0){
     //la ligne est deplacer dans message-flash.php
     $_SESSION["user"] = $user ; 
    //unset($_SESSION["message"]); // supprimer une variable 
-    header("Location: http://localhost/php-initiation/projet/index.php?page=accueil&partie=privee");
+    // header("Location: http://localhost/php-initiation/projet/index.php?page=accueil&partie=privee");
+    header("Location: ".WWW."?page=accueil&partie=privee");
 }else{
     $_SESSION["message"] = [
         "alert" => "danger",
         "info" => $erreurs
     ];
-    header("Location: http://localhost/php-initiation/projet/index.php?page=login");
+    // header("Location: http://localhost/php-initiation/projet/index.php?page=login");
+    //deuxieme maniere de faire 
+    header("Location: ".WWW."?page=login");
 }
 exit ;
 

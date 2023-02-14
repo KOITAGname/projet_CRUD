@@ -1,4 +1,8 @@
 <?php 
+//pour faire appel a la fonction
+   require "lib/fonctions.php";
+   isLogged();
+
     $sth = $connexion->prepare("
     SELECT id, titre , contenu,slug, image, auteur, DATE_FORMAT(dt_creation , '%d/%m/%Y') AS `dt_creation`  FROM pages ;
     ");
@@ -14,6 +18,7 @@
         <div class="text-end mb-3">
             <a href=" http://localhost/php-initiation/projet/index.php?page=page&partie=privee&action=add" class="btn btn-primary">ajouter une nouvelle page</a>
         </div>
+        <?php require "lib/message-flash.php" ?>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -37,8 +42,9 @@
                         <td><?php echo htmlentities($p["auteur"]) ?></td>
                         <td><?php echo htmlentities($p["dt_creation"]) ?></td>
                         <td>
-                        <a href="" class="btn btn-warning me-2">modifier</a>
-                        <a href="" class="btn btn-danger" onclick="return confirm('voulez vous vraiment supprimer cette page ??')">supprimer</a>
+                            <!-- ajout des liens de modifications et suppression -->
+                        <a href="<?php echo WWW ?>?page=page&partie=privee&action=update&id=<?php echo htmlentities($p["id"]) ?>" class="btn btn-warning me-2">modifier</a>
+                        <a href="<?php echo WWW ?>?page=page&partie=privee&action=delete&id=<?php echo htmlentities($p["id"]) ?>" class="btn btn-danger" onclick="return confirm('voulez vous vraiment supprimer cette page ??')">supprimer</a>
                         </td>
                     </tr>
                 <?php endforeach ?>

@@ -5,8 +5,18 @@ $sth = $connexion->prepare("
 $sth->execute(["slug" => "mentions-legales"]);
 $mentions = $sth->fetch();
 ?>
-<h1><?php echo $mentions["titre"] ?></h1>
-<img src="<?php echo $mentions["image"] ?>" alt="">
+<!-- <h1><//?php echo $mentions["titre"] ?></h1>
+<img src="<//?php echo $mentions["image"] ?>" alt="">
 <div>
-    <?php echo $mentions["contenu"] ?>
-</div>
+    <//?php echo $mentions["contenu"] ?>
+</div> -->
+<!-- nous permet de creer la page presentation -->
+<?php if($mentions) : ?>
+    <h1><?php echo $mentions["titre"] ?></h1>
+    <img src="<?php echo $mentions["image"] ?>" alt="" class="img-fluid">
+    <div>
+        <?php echo $mentions["contenu"] ?>
+    </div>
+<?php else : ?>
+    <p class="mt-5">veuillez créer dans la page dans le backoffice avec le slug "mentions-legales"</p>
+<?php endif ?>

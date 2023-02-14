@@ -4,6 +4,9 @@
 session_start();
 $erreurs = [];
 require "base-de-donne.php";
+//pour faire appel a la fonction
+require "fonctions.php";
+isLogged(); 
 
 if(
     empty($_POST["nom"]) || 
@@ -108,16 +111,17 @@ if(count($erreurs) === 0){
      $sth->execute($_POST);
  }
 
+    // header("Location: http://localhost/php-initiation/projet/index.php?page=user&partie=privee");
 
+    header("Location: " . WWW . "?page=user&partie=privee");
 
-
-
-    header("Location: http://localhost/php-initiation/projet/index.php?page=user&partie=privee");
 }else{
     $_SESSION["message"] = [
         "alert" => "danger",
         "info" => $erreurs
     ];
-    header("Location: http://localhost/php-initiation/projet/index.php?page=user&partie=privee&action=add");
+    // header("Location: http://localhost/php-initiation/projet/index.php?page=user&partie=privee&action=add");
+
+    header("Location: " . WWW . "?page=user&partie=privee&action=add");
 }
 exit ;
